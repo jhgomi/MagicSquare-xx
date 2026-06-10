@@ -1,21 +1,57 @@
+import pytest
+
+from entity.constants import GRID_SIZE, MAGIC_CONSTANT
 from validate_lines import validate_lines
 
 
-def test_grid_with_zero_returns_incomplete():
-    """0(빈칸) 포함 — status incomplete, failed_lines []."""
-    ...
+def test_t_inc_01_grid_with_zero(grid_g1):
+    # Given — grid_g1, 0 포함 4×4
+    grid = [
+        grid_g1[i : i + GRID_SIZE]
+        for i in range(0, GRID_SIZE * GRID_SIZE, GRID_SIZE)
+    ]
+
+    # When
+    result = validate_lines(grid)
+
+    # Then — assert 금지; RED 스켈레톤만
+    pytest.fail(
+        f"RED: T-INC-01 — expect status incomplete, failed_lines [] (MAGIC={MAGIC_CONSTANT})"
+    )
 
 
-def test_diagonal_only_wrong_returns_fail():
-    """행·열은 34, 대각선(D1/D2)만 틀림 — status fail, failed_lines에 대각선 포함."""
-    ...
+def test_t_fail_d1_diagonal_only_wrong(grid_semi_magic_fake):
+    # Given — 행·열 34, D1(주대각) 깨짐 4×4
+    grid = grid_semi_magic_fake
+
+    # When
+    result = validate_lines(grid)
+
+    # Then
+    pytest.fail("RED: T-FAIL-D1 — expect status fail, D1 in failed_lines")
 
 
-def test_rows_cols_only_fake_complete_returns_fail():
-    """행·열만 34, 대각선 미충족 — pass 금지, status fail."""
-    ...
+def test_t_fail_fake_rows_cols_only(grid_semi_magic_fake):
+    # Given — 행·열만 34 (가짜 완료), 대각선 미충족
+    grid = grid_semi_magic_fake
+
+    # When
+    result = validate_lines(grid)
+
+    # Then
+    pytest.fail(
+        "RED: T-FAIL-FAKE — expect status fail (pass forbidden), rows/cols only 34"
+    )
 
 
-def test_complete_magic_square_returns_pass():
-    """0 없음, 1~16 중복 없음, 10선 모두 34 — status pass, failed_lines []."""
-    ...
+def test_t_pass_01_complete_magic_square(grid_magic_pass):
+    # Given — 0 없음, 1~16 중복 없음, 10선 모두 34
+    grid = grid_magic_pass
+
+    # When
+    result = validate_lines(grid)
+
+    # Then
+    pytest.fail(
+        f"RED: T-PASS-01 — expect status pass, failed_lines [] (MAGIC={MAGIC_CONSTANT})"
+    )

@@ -128,6 +128,8 @@ python -m pytest tests/test_validate_lines.py -v
 | 03 | [03.REPORT.md](Report/03.REPORT.md) | [03.REPORT.md](Prompting/03.REPORT.md) | 세션 3 워크북 | 2026-06-10 |
 | 04 | [04.REPORT.md](Report/04.REPORT.md) | [04.REPORT.md](Prompting/04.REPORT.md) | R-G-I-O vs validate_lines | 2026-06-10 |
 | 05 | [05.REPORT.md](Report/05.REPORT.md) | [05.Export-Transcript.md](Prompting/05.Export-Transcript.md) | TDD Command·Skill·PRD·README | 2026-06-10 |
+| 06 | [06.REPORT.md](Report/06.REPORT.md) | [06.Export-Transcript.md](Prompting/06.Export-Transcript.md) | PRD §8.1 RED 테스트 플랜 | 2026-06-10 |
+| 07 | [07.REPORT.md](Report/07.REPORT.md) | [07.Export-Transcript.md](Prompting/07.Export-Transcript.md) | RED ④ pytest.fail 스켈레톤 | 2026-06-10 |
 
 | 문서 | 설명 |
 |------|------|
