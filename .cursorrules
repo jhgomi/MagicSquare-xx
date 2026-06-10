@@ -1,0 +1,46 @@
+# MagicSquare_xx — 4×4 마방진 10선 검증 (세션 3)
+
+## Entity (도메인 규칙)
+
+- 격자: **4×4** 정수 리스트(또는 중첩 리스트). 크기·형식이 맞지 않으면 검증 대상이 아니다.
+- 셀 값: **0** = 빈칸, **1~16** = 채운 값. 범위 밖·음수는 invalid.
+- **마법상수:** 34 — 행·열·대각선 각 **4개** 합이 34여야 한다.
+- **10선 (축 ID):** `R1`~`R4`(행), `C1`~`C4`(열), `D1`(주대각), `D2`(부대각).
+- **완성(pass):** `0` 없음, 1~16 **중복 없음**, 10선 **모두** 합 34.
+- **incomplete:** `0`이 하나라도 있으면 10선 판정 전에 incomplete. 행·열만 맞아도 pass 금지.
+
+## Control (검증 API)
+
+- 진입점: `validate_lines(grid) -> dict`
+- 반환 형식:
+  ```python
+  {"status": "pass" | "fail" | "incomplete", "failed_lines": [...]}
+  ```
+- `status`:
+  - `incomplete` — 빈칸(`0`) 존재 또는 완성 판정 불가
+  - `fail` — 완성 격자이나 10선 중 하나 이상 합 ≠ 34 또는 숫자 규칙 위반
+  - `pass` — 10선 + 숫자 규칙 동시 만족
+- `failed_lines`: fail 시 깨진 축 ID 목록(예 `["R2", "D1"]`). pass·incomplete 시 `[]`.
+- 구현 위치: `src/validate_lines.py`. Control은 Entity 규칙만 해석하고 UI·입력 형식 변환은 하지 않는다.
+
+## Boundary (입출력·테스트 경계)
+
+- 입력: 4×4 격자(중첩 리스트 4×4 또는 flat 16 — 테스트에서 명시).
+- 출력: 위 dict. 사람이 읽을 메시지·CLI·GridUI는 후속 세션. 이번 세션은 dict 계약만.
+- 테스트: `tests/test_validate_lines.py`. Red 케이스 — 대각선만 틀린 격자, 행·열만 34인 가짜 완료, 정답 pass.
+
+## TDD
+
+- 순서: **RED → GREEN → REFACTOR**. 한 사이클에 한 행동.
+- **RED:** `tests/`만 수정. 실패하는 테스트를 먼저 작성한다.
+- **GREEN:** `src/`만 수정. 테스트를 통과시키는 최소 구현.
+- **REFACTOR:** 동작 유지하며 정리. 테스트는 green 유지.
+- 금지: `assert` 완화, `@pytest.mark.skip`, `xfail`, `@pytest.mark.xfail`, 구현을 맞추기 위한 테스트 삭제·무력화.
+- RED에서 `src/`를 미리 바꾸지 않는다. GREEN 전까지 production 코드 변경 없음.
+
+## AI (Cursor)
+
+- 대화·설명·주석: **한국어**.
+- TDD 작업 시 **응답 첫 줄**에 Phase 선언: `Phase: RED` | `Phase: GREEN` | `Phase: REFACTOR`.
+- 범위: 세션 3 — 10선 검증·Test Loop. Solver, ECB UI, 자동 풀이는 하지 않는다.
+- **git commit**은 사용자가 명시적으로 요청할 때만 수행한다.
