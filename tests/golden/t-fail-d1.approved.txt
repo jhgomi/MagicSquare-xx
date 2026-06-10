@@ -1,0 +1,2 @@
+INT6 0 0 0 0 0 0
+ERR status=fail failed=D1,D2

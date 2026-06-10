@@ -130,6 +130,8 @@ python -m pytest tests/test_validate_lines.py -v
 | 05 | [05.REPORT.md](Report/05.REPORT.md) | [05.Export-Transcript.md](Prompting/05.Export-Transcript.md) | TDD Command·Skill·PRD·README | 2026-06-10 |
 | 06 | [06.REPORT.md](Report/06.REPORT.md) | [06.Export-Transcript.md](Prompting/06.Export-Transcript.md) | PRD §8.1 RED 테스트 플랜 | 2026-06-10 |
 | 07 | [07.REPORT.md](Report/07.REPORT.md) | [07.Export-Transcript.md](Prompting/07.Export-Transcript.md) | RED ④ pytest.fail 스켈레톤 | 2026-06-10 |
+| 08 | [08.REPORT.md](Report/08.REPORT.md) | [08.Export-Transcript.md](Prompting/08.Export-Transcript.md) | GREEN 최소 구현 | 2026-06-10 |
+| 09 | [09.REPORT.md](Report/09.REPORT.md) | [09.Export-Transcript.md](Prompting/09.Export-Transcript.md) | PyQt6 최소 데모 | 2026-06-10 |
 
 | 문서 | 설명 |
 |------|------|
@@ -145,8 +147,8 @@ Export: `/export` · `/export-session` → `magic-square-docs` Skill
 | 단계 | 상태 |
 |------|------|
 | STEP 1~2 Mom Test | ✅ |
-| STEP 3 `validate_lines` 계약·TDD | 🔄 |
-| GREEN 구현 · Golden · REFACTOR | ⏳ |
+| STEP 3 `validate_lines` 계약·TDD | ✅ GREEN 4케이스 |
+| Golden · REFACTOR | ⏳ |
 | Solver · GridUI · ECB | ⏳ 후속 |
 
 ---
