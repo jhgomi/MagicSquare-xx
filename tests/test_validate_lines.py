@@ -32,7 +32,8 @@ def test_t_inc_01_grid_with_zero_golden(grid_g1):
     from pathlib import Path
 
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from _approval import assert_matches_golden, format_golden
+    from _approval import assert_matches_golden
+    from boundary.golden_format import format_golden
 
     int6 = [1, 3, 4, 4, 0, 0]  # 1-index blank coords + padding
     assert_matches_golden("T-INC-01", format_golden(result, int6))
@@ -62,7 +63,8 @@ def test_t_fail_d1_diagonal_only_wrong_golden(grid_semi_magic_fake):
     from pathlib import Path
 
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from _approval import assert_matches_golden, format_golden
+    from _approval import assert_matches_golden
+    from boundary.golden_format import format_golden
 
     int6 = [0, 0, 0, 0, 0, 0]  # 빈칸 없음 — padding
     assert_matches_golden("T-FAIL-D1", format_golden(result, int6))
@@ -92,7 +94,8 @@ def test_t_fail_fake_rows_cols_only_golden(grid_semi_magic_fake):
     from pathlib import Path
 
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from _approval import assert_matches_golden, format_golden
+    from _approval import assert_matches_golden
+    from boundary.golden_format import format_golden
 
     int6 = [0, 0, 0, 0, 0, 0]  # 빈칸 없음 — padding
     assert_matches_golden("T-FAIL-FAKE", format_golden(result, int6))
@@ -122,7 +125,8 @@ def test_t_pass_01_complete_magic_square_golden(grid_magic_pass):
     from pathlib import Path
 
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from _approval import assert_matches_golden, format_golden
+    from _approval import assert_matches_golden
+    from boundary.golden_format import format_golden
 
     int6 = [0, 0, 0, 0, 0, 0]  # 빈칸 없음 — padding
     assert_matches_golden("T-PASS-01", format_golden(result, int6))
