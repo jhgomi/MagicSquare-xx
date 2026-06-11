@@ -29,6 +29,12 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
+from boundary.grid_io import format_grid_for_display, parse_grid_texts  # noqa: E402
+from boundary.status_display import (  # noqa: E402
+    format_failed_lines_line,
+    format_status_line,
+    STATUS_STYLE,
+)
 from entity.constants import GRID_SIZE  # noqa: E402
 from validate_lines import validate_lines  # noqa: E402
 
@@ -51,18 +57,6 @@ SAMPLE_GRIDS: dict[str, list[list[int]]] = {
         [9, 6, 7, 12],
         [4, 15, 14, 1],
     ],
-}
-
-STATUS_STYLE = {
-    "pass": "color: #1b7f3a; font-weight: bold;",
-    "fail": "color: #c0392b; font-weight: bold;",
-    "incomplete": "color: #d68910; font-weight: bold;",
-}
-
-STATUS_LABEL = {
-    "pass": "pass — 10선 모두 34",
-    "fail": "fail — 깨진 축 있음",
-    "incomplete": "incomplete — 빈칸(0) 존재",
 }
 
 
@@ -128,30 +122,20 @@ class MagicSquareDemo(QMainWindow):
         layout.addWidget(self._failed_label)
 
     def _load_grid(self, grid: list[list[int]]) -> None:
+        display = format_grid_for_display(grid)
         for r in range(GRID_SIZE):
             for c in range(GRID_SIZE):
-                value = grid[r][c]
-                self._cells[r][c].setText("" if value == 0 else str(value))
+                self._cells[r][c].setText(display[r][c])
         self._result_label.setText("결과: —")
         self._result_label.setStyleSheet("")
         self._failed_label.setText("")
 
     def _read_grid(self) -> list[list[int]] | None:
-        grid: list[list[int]] = []
-        for r in range(GRID_SIZE):
-            row: list[int] = []
-            for c in range(GRID_SIZE):
-                text = self._cells[r][c].text().strip()
-                if text == "":
-                    row.append(0)
-                    continue
-                try:
-                    value = int(text)
-                except ValueError:
-                    return None
-                row.append(value)
-            grid.append(row)
-        return grid
+        text_rows = [
+            [self._cells[r][c].text() for c in range(GRID_SIZE)]
+            for r in range(GRID_SIZE)
+        ]
+        return parse_grid_texts(text_rows)
 
     def _on_validate(self) -> None:
         grid = self._read_grid()
@@ -163,15 +147,9 @@ class MagicSquareDemo(QMainWindow):
         status = result["status"]
         failed = result["failed_lines"]
 
-        self._result_label.setText(f"결과: {STATUS_LABEL[status]}")
+        self._result_label.setText(format_status_line(status))
         self._result_label.setStyleSheet(STATUS_STYLE[status])
-
-        if failed:
-            self._failed_label.setText(f"failed_lines: {', '.join(failed)}")
-        elif status == "incomplete":
-            self._failed_label.setText("failed_lines: [] (빈칸 채운 뒤 재검증)")
-        else:
-            self._failed_label.setText("failed_lines: []")
+        self._failed_label.setText(format_failed_lines_line(status, failed))
 
 
 def main() -> None:
