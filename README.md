@@ -132,6 +132,9 @@ python -m pytest tests/test_validate_lines.py -v
 | 07 | [07.REPORT.md](Report/07.REPORT.md) | [07.Export-Transcript.md](Prompting/07.Export-Transcript.md) | RED ④ pytest.fail 스켈레톤 | 2026-06-10 |
 | 08 | [08.REPORT.md](Report/08.REPORT.md) | [08.Export-Transcript.md](Prompting/08.Export-Transcript.md) | GREEN 최소 구현 | 2026-06-10 |
 | 09 | [09.REPORT.md](Report/09.REPORT.md) | [09.Export-Transcript.md](Prompting/09.Export-Transcript.md) | PyQt6 최소 데모 | 2026-06-10 |
+| 10 | [10.REPORT.md](Report/10.REPORT.md) | [10.Export-Transcript.md](Prompting/10.Export-Transcript.md) | Golden Master 실행 가이드 | 2026-06-11 |
+| 11 | [11.REPORT.md](Report/11.REPORT.md) | [11.Export-Transcript.md](Prompting/11.Export-Transcript.md) | Dual Track REFACTOR | 2026-06-11 |
+| 12 | [12.REPORT.md](Report/12.REPORT.md) | [12.Export-Transcript.md](Prompting/12.Export-Transcript.md) | 아키텍처·다이어그램·메서드 목록 | 2026-06-11 |
 
 | 문서 | 설명 |
 |------|------|
@@ -148,7 +151,8 @@ Export: `/export` · `/export-session` → `magic-square-docs` Skill
 |------|------|
 | STEP 1~2 Mom Test | ✅ |
 | STEP 3 `validate_lines` 계약·TDD | ✅ GREEN 4케이스 |
-| Golden · REFACTOR | ⏳ |
+| Golden | ✅ |
+| REFACTOR (Dual Track) | ✅ STEP 11 |
 | Solver · GridUI · ECB | ⏳ 후속 |
 
 ---
