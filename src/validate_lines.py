@@ -1,26 +1,12 @@
-from entity.constants import CELL_MAX, GRID_SIZE, MAGIC_CONSTANT
+"""Control — Logic·UI Track 조율. 도메인 규칙·입출력 변환은 각 Track에 위임."""
 
-LINE_IDS = [
-    "R1", "R2", "R3", "R4",
-    "C1", "C2", "C3", "C4",
-    "D1", "D2",
-]
-
-
-def _failed_lines(grid: list) -> list[str]:
-    failed: list[str] = []
-    n = GRID_SIZE
-    for i in range(n):
-        if sum(grid[i]) != MAGIC_CONSTANT:
-            failed.append(f"R{i + 1}")
-    for j in range(n):
-        if sum(grid[i][j] for i in range(n)) != MAGIC_CONSTANT:
-            failed.append(f"C{j + 1}")
-    if sum(grid[i][i] for i in range(n)) != MAGIC_CONSTANT:
-        failed.append("D1")
-    if sum(grid[i][n - 1 - i] for i in range(n)) != MAGIC_CONSTANT:
-        failed.append("D2")
-    return failed
+from boundary.grid_io import build_validation_result, flatten_grid
+from entity.line_logic import (
+    failed_lines,
+    has_blank_cells,
+    has_duplicate_values,
+    has_invalid_values,
+)
 
 
 def validate_lines(grid: list) -> dict:
@@ -31,21 +17,17 @@ def validate_lines(grid: list) -> dict:
         - pass / incomplete: failed_lines == []
         - fail: 깨진 축 ID (R1~R4, C1~C4, D1, D2)
     """
-    flat = [cell for row in grid for cell in row]
+    flat = flatten_grid(grid)
 
-    if 0 in flat:
-        return {"status": "incomplete", "failed_lines": []}
+    if has_blank_cells(flat):
+        return build_validation_result("incomplete", [])
 
-    if any(v < 1 or v > CELL_MAX for v in flat):
-        failed = _failed_lines(grid)
-        return {"status": "fail", "failed_lines": failed}
+    if has_invalid_values(flat) or has_duplicate_values(flat):
+        failed = failed_lines(grid)
+        return build_validation_result("fail", failed)
 
-    if len(set(flat)) != len(flat):
-        failed = _failed_lines(grid)
-        return {"status": "fail", "failed_lines": failed}
-
-    failed = _failed_lines(grid)
+    failed = failed_lines(grid)
     if failed:
-        return {"status": "fail", "failed_lines": failed}
+        return build_validation_result("fail", failed)
 
-    return {"status": "pass", "failed_lines": []}
+    return build_validation_result("pass", [])
